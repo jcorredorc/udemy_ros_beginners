@@ -55,11 +55,11 @@ add_message_files(
 )
 
 ## Generate services in the 'srv' folder
-# add_service_files(
-#   FILES
-#   Service1.srv
-#   Service2.srv
-# )
+add_service_files(
+  FILES
+  rectangleAreaService.srv
+  # Service2.srv
+)
 
 ## Generate actions in the 'action' folder
 # add_action_files(
@@ -169,6 +169,8 @@ catkin_install_python(PROGRAMS
   src/control_motion_turtlesim/turtlesim_vel.py
   src/iot_sensor/iot_sensor_publisher.py 
   src/iot_sensor/iot_sensor_subscriber.py 
+  src/service_example/area_client.py
+  src/service_example/area_service.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
