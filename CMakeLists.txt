@@ -171,6 +171,7 @@ catkin_install_python(PROGRAMS
   src/iot_sensor/iot_sensor_subscriber.py 
   src/service_example/area_client.py
   src/service_example/area_service.py
+  src/opencv_example/image_pub_sub.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
