@@ -12,7 +12,11 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   std_msgs
   message_generation
+  #OpenCV <-- No compila!!
+  cv_bridge
+  image_transport
 )
+find_package(OpenCV)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -119,6 +123,7 @@ catkin_package(
 include_directories(
 # include
   ${catkin_INCLUDE_DIRS}
+  ${OpenCV_INCLUDE_DIRS}
 )
 
 ## Declare a C++ library
@@ -135,6 +140,16 @@ include_directories(
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
 # add_executable(${PROJECT_NAME}_node src/udemy_ros_beginners_node.cpp)
+# find_package(OpenCV)
+#include_directories(${OpenCV_INCLUDE_DIRS})
+add_executable(read_video_cpp src/opencv_example/cpp/read_video.cpp)
+add_executable(open_copy_cpp src/opencv_example/cpp/open_copy.cpp)
+add_executable(image_pub_sub_cpp src/opencv_example/cpp/image_pub_sub.cpp)
+# Assignment
+add_executable(read_video_ball_tracker_cpp src/opencv_example/assignment/read_video_ball_tracker.cpp)
+add_executable(tennis_ball_publisher_cpp src/opencv_example/assignment/tennis_ball_publisher.cpp)
+add_executable(tennis_ball_listener_cpp src/opencv_example/assignment/tennis_ball_listener.cpp)
+
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -150,6 +165,32 @@ include_directories(
 # target_link_libraries(${PROJECT_NAME}_node
 #   ${catkin_LIBRARIES}
 # )
+target_link_libraries(read_video_cpp
+  ${catkin_LIBRARIES}
+  ${OpenCV_LIBRARIES}
+)
+target_link_libraries(open_copy_cpp
+  ${catkin_LIBRARIES}
+  ${OpenCV_LIBRARIES}
+)
+target_link_libraries(image_pub_sub_cpp
+  ${catkin_LIBRARIES}
+  ${OpenCV_LIBRARIES}
+)
+target_link_libraries(read_video_ball_tracker_cpp
+  ${catkin_LIBRARIES}
+  ${OpenCV_LIBRARIES}
+)
+
+target_link_libraries(tennis_ball_publisher_cpp
+  ${catkin_LIBRARIES}
+  ${OpenCV_LIBRARIES}
+)
+
+target_link_libraries(tennis_ball_listener_cpp
+  ${catkin_LIBRARIES}
+  ${OpenCV_LIBRARIES}
+)
 
 #############
 ## Install ##
@@ -171,7 +212,7 @@ catkin_install_python(PROGRAMS
   src/iot_sensor/iot_sensor_subscriber.py 
   src/service_example/area_client.py
   src/service_example/area_service.py
-  src/opencv_example/image_pub_sub.py
+  src/opencv_example/py/image_pub_sub.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
