@@ -130,6 +130,13 @@ include_directories(
 # add_library(${PROJECT_NAME}
 #   src/${PROJECT_NAME}/udemy_ros_beginners.cpp
 # )
+#utility library
+add_library(utility_lib src/scan_laser_example/laserscan/utility_lib.cpp)
+#LaserScan
+add_library(laserscan_lib src/scan_laser_example/laserscan/LaserScanner.cpp)
+# target_link_libraries(laserscan_lib ${catkin_LIBRARIES})
+# # add_dependencies(laserscan_lib ${catkin_EXPORTED_TARGETS})
+# target_link_libraries(laserscan_lib utility_lib)
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
@@ -149,6 +156,8 @@ add_executable(image_pub_sub_cpp src/opencv_example/cpp/image_pub_sub.cpp)
 add_executable(read_video_ball_tracker_cpp src/opencv_example/assignment/read_video_ball_tracker.cpp)
 add_executable(tennis_ball_publisher_cpp src/opencv_example/assignment/tennis_ball_publisher.cpp)
 add_executable(tennis_ball_listener_cpp src/opencv_example/assignment/tennis_ball_listener.cpp)
+# laser scan
+add_executable(scan_subscriber_cpp src/scan_laser_example/scan_subscriber.cpp)
 
 
 ## Rename C++ executable without prefix
@@ -160,6 +169,8 @@ add_executable(tennis_ball_listener_cpp src/opencv_example/assignment/tennis_bal
 ## Add cmake target dependencies of the executable
 ## same as for the library above
 # add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(laserscan_lib ${catkin_EXPORTED_TARGETS})
+
 
 ## Specify libraries to link a library or executable target against
 # target_link_libraries(${PROJECT_NAME}_node
@@ -191,6 +202,22 @@ target_link_libraries(tennis_ball_listener_cpp
   ${catkin_LIBRARIES}
   ${OpenCV_LIBRARIES}
 )
+
+target_link_libraries(laserscan_lib 
+  ${catkin_LIBRARIES}
+)
+
+target_link_libraries(laserscan_lib 
+  utility_lib
+)
+
+target_link_libraries(scan_subscriber_cpp
+  ${catkin_LIBRARIES}
+  laserscan_lib
+)
+
+
+
 
 #############
 ## Install ##
