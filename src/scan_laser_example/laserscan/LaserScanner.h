@@ -18,6 +18,8 @@ public:
   /** ****************************************************
    * Laser data processing functions
    * ****************************************************/
+
+  // static no need to create an object
   
   static double Index2Angle(sensor_msgs::LaserScan laser_scan_msg, int index);
   static int Angle2Index(sensor_msgs::LaserScan laser_scan_msg, double angle);
@@ -42,6 +44,7 @@ public:
   static double getMinimumRange (sensor_msgs::LaserScan & laser_scan_msg, int start_index, int end_index);
   static double getMinimumRangeLeft(sensor_msgs::LaserScan & laser_scan_msg, double degree);
   static double getMinimumRangeRight(sensor_msgs::LaserScan & laser_scan_msg, double degree);
+  static double getMinimumFrontRange(sensor_msgs::LaserScan & msg, double left_angle, double right_angle);
   
   static double getMaximumRange (sensor_msgs::LaserScan & laser_scan_msg, int start_index, int end_index);
   static double getMaximumRangeLeft(sensor_msgs::LaserScan & laser_scan_msg, double degree);

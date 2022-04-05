@@ -158,6 +158,8 @@ add_executable(tennis_ball_publisher_cpp src/opencv_example/assignment/tennis_ba
 add_executable(tennis_ball_listener_cpp src/opencv_example/assignment/tennis_ball_listener.cpp)
 # laser scan
 add_executable(scan_subscriber_cpp src/scan_laser_example/scan_subscriber.cpp)
+#assignment
+add_executable(move_stop_turtlebot3_cpp src/scan_laser_example/assignment/move_stop_turtlebot3.cpp)
 
 
 ## Rename C++ executable without prefix
@@ -216,7 +218,10 @@ target_link_libraries(scan_subscriber_cpp
   laserscan_lib
 )
 
-
+target_link_libraries(move_stop_turtlebot3_cpp
+  ${catkin_LIBRARIES}
+  laserscan_lib
+)
 
 
 #############

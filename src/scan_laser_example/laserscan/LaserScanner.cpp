@@ -2,7 +2,7 @@
 
 using namespace std;
 
-
+// 
 double LaserScanner::Index2Angle(sensor_msgs::LaserScan laser_scan_msg, int index){
 	return (laser_scan_msg.angle_min + (index*laser_scan_msg.angle_increment));
 	//return -(LaserScanMsg.angle_min+(LaserScanMsg.angle_increment*getIndexOfMaximumRange(LaserScanMsg)));
@@ -43,8 +43,6 @@ double LaserScanner::getAverageRangeLeft(sensor_msgs::LaserScan & laser_scan_msg
   //cout<<"start_index LEFT "<<start_index<<endl;
   //cout<<"end_index LEFT"<<end_index<<endl;
   return getAverageRange(laser_scan_msg, start_index, end_index);
-  
-  
 }
 
 double LaserScanner::getAverageRangeStraight(sensor_msgs::LaserScan & laser_scan_msg, double degree){
@@ -59,39 +57,40 @@ double LaserScanner::getAverageRangeStraight(sensor_msgs::LaserScan & laser_scan
 
 
 
-double LaserScanner::getMinimumRange(sensor_msgs::LaserScan & LaserScanMsg, int start_index, int end_index){
+double LaserScanner::getMinimumRange(sensor_msgs::LaserScan & LaserScanMsg, 
+                                    int start_index, int end_index){
   //get initial value of max_index for the first valid range
-  int min_index = 0;
+  int min_index = start_index;
   for(int i = start_index; i < end_index ; i++){
-if(!std::isnan(LaserScanMsg.ranges[i])){
-    if((LaserScanMsg.ranges[i]>= LaserScanMsg.range_min) && (LaserScanMsg.ranges[i]<= LaserScanMsg.range_max)){
-      min_index = i;
-      break;
+    if(!std::isnan(LaserScanMsg.ranges[i])){
+        if((LaserScanMsg.ranges[i]>= LaserScanMsg.range_min) && 
+           (LaserScanMsg.ranges[i]<= LaserScanMsg.range_max)){
+          min_index = i;
+          break;
+        }
     }
-}
   }
   //look for max_index
   for(int i = min_index+1; i < end_index ; i++){
-if(!std::isnan(LaserScanMsg.ranges[i])){
-    if((LaserScanMsg.ranges[i]>= LaserScanMsg.range_min) && (LaserScanMsg.ranges[i]<= LaserScanMsg.range_max)){
-      if (LaserScanMsg.ranges[min_index]>LaserScanMsg.ranges[i]){
-	//std::cout<<"max_index changed "<<i<<" new range: "<<LaserScanMsg.ranges[i]<<std::endl;  
-	min_index=i;
-      }
-      
+    if(!std::isnan(LaserScanMsg.ranges[i])){
+        if((LaserScanMsg.ranges[i]>= LaserScanMsg.range_min) && 
+          (LaserScanMsg.ranges[i]<= LaserScanMsg.range_max)){
+          if (LaserScanMsg.ranges[min_index]>LaserScanMsg.ranges[i]){
+            // std::cout<<"max_index changed "<<i<<" new range: "<<LaserScanMsg.ranges[i]<<std::endl;  
+            min_index=i;
+        }
+        }
     }
-}
   } 
-  return LaserScanMsg.ranges[min_index]; 
-  
+  return LaserScanMsg.ranges[min_index];  
 }
 
 
 double LaserScanner::getMinimumRangeRight(sensor_msgs::LaserScan & laser_scan_msg, double degree){
   int start_index = 0;
   int end_index = (int)(degree/radian2degree(laser_scan_msg.angle_increment));
-  //cout<<"start_index RIGHT "<<start_index<<endl;
-  //cout<<"end_index RIGHT"<<end_index<<endl;
+  // cout<<"start_index RIGHT "<<start_index<<endl;
+  // cout<<"end_index RIGHT"<<end_index<<endl;
   
   return getMinimumRange(laser_scan_msg, start_index, end_index);
   
@@ -101,8 +100,8 @@ double LaserScanner::getMinimumRangeRight(sensor_msgs::LaserScan & laser_scan_ms
 double LaserScanner::getMinimumRangeLeft(sensor_msgs::LaserScan & laser_scan_msg, double degree){
   int end_index = laser_scan_msg.ranges.size();
   int start_index = end_index- (int)(degree/radian2degree(laser_scan_msg.angle_increment));
-  //cout<<"start_index LEFT "<<start_index<<endl;
-  //cout<<"end_index LEFT"<<end_index<<endl;
+  // cout<<"start_index LEFT "<<start_index<<endl;
+  // cout<<"end_index LEFT "<<end_index<<endl;
   return getMinimumRange(laser_scan_msg, start_index, end_index);
   
   
@@ -233,6 +232,35 @@ double LaserScanner::getMinimumRange(sensor_msgs::LaserScan & LaserScanMsg){
   
   return LaserScanMsg.ranges[getIndexOfMinimumRange(LaserScanMsg)];
 }
+
+/** ****************************************************************************
+ * Function: getMinimumFrontRange(sensor_msgs::LaserScan & LaserScanMsg,double left_angle, double right_angle)
+ * Input: LaserScan message, left angle and right angle from 0 degrees 
+ * Output: the miniumun range from the laserscan data message in the range
+ * ***************************************************************************/ 
+
+double LaserScanner::getMinimumFrontRange(sensor_msgs::LaserScan & LaserScanMsg, double left_angle, double right_angle){
+  double dist_left=getMinimumRangeLeft(LaserScanMsg,left_angle);
+  double dist_right = getMinimumRangeRight(LaserScanMsg,right_angle);
+  // std::cout << "LS dist_right: " << dist_right << endl;
+  // std::cout << "LS dist_left: " << dist_left << endl;
+  double min_distance = 0;
+  if (dist_left < dist_right){
+    // cout<<"dist_left"<<dist_left<<endl;
+    min_distance=dist_left;
+  }
+  else{
+    // ROS_INFO("dist_right %f", dist_right);
+    // cout<<"dist_right: "<<dist_right<<endl;
+    min_distance=dist_right;
+  }
+  // std::cout << "LS min_distance: " << min_distance << endl; 
+  // return getMinimumRangeLeft(LaserScanMsg,left_angle);
+  // return getMinimumRange(LaserScanMsg, left_angle, right_angle);
+  return min_distance;
+}
+
+
 
 double  LaserScanner::getFrontRange(sensor_msgs::LaserScan & LaserScanMsg){
   

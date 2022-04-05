@@ -1,0 +1,10 @@
+<launch>
+
+<include file="$(find realsense2_camera)/launch/rs_camera.launch">
+</include>
+
+<node name="depthimage_to_laserscan" pkg="depthimage_to_laserscan" type="depthimage_to_laserscan"> 
+  <remap from="image" to="/camera/depth/image_rect_raw"/>
+</node>
+
+</launch>
