@@ -152,13 +152,13 @@ add_library(laserscan_lib src/scan_laser_example/laserscan/LaserScanner.cpp)
 add_executable(read_video_cpp src/opencv_example/cpp/read_video.cpp)
 add_executable(open_copy_cpp src/opencv_example/cpp/open_copy.cpp)
 add_executable(image_pub_sub_cpp src/opencv_example/cpp/image_pub_sub.cpp)
-# Assignment
+# Assignment OpenCV
 add_executable(read_video_ball_tracker_cpp src/opencv_example/assignment/read_video_ball_tracker.cpp)
 add_executable(tennis_ball_publisher_cpp src/opencv_example/assignment/tennis_ball_publisher.cpp)
 add_executable(tennis_ball_listener_cpp src/opencv_example/assignment/tennis_ball_listener.cpp)
 # laser scan
 add_executable(scan_subscriber_cpp src/scan_laser_example/scan_subscriber.cpp)
-#assignment
+#assignment LaserScanner
 add_executable(move_stop_turtlebot3_cpp src/scan_laser_example/assignment/move_stop_turtlebot3.cpp)
 add_executable(move_pid_turtlebot3_cpp src/scan_laser_example/assignment/move_pid_turtlebot3.cpp)
 
