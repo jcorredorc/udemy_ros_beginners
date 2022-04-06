@@ -27,10 +27,40 @@ sudo apt install xterm
 
 ### OpenCV
 
+* Launch basic example publisher and listener
+    ```
+    roslaunch udemy_ros_beginners image_pub_sub.launch
+    ```
+* Launch realsense2 camera and convert to laser scan topic
+
+    ```
+    roslaunch udemy_ros_beginners depth_image_to_laser.launch
+    ```
+* Launch usb camera test
+    ```
+    roslaunch udemy_ros_beginners usb_cam-test.launch
+    ```
+
+1. Assignment:
+
+* Using openCV without ROS
+    ```
+    rosrun udemy_ros_beginners read_video_ball_tracker_cpp
+    ```
+*  Using OpenCV + ROS and Reading from a Video File (CvBridge)
+    ```
+    roslaunch udemy_ros_beginners videofile_pub_sub.launch 
+    ```
+* Using OpenCV + ROS and Reading from a USB Camera (CvBridge)
+    ```
+    roslaunch udemy_ros_beginners usb_cam-test.launch
+    rosrun udemy_ros_beginners tennis_ball_usb_cam_tracker_cpp
+    ```
+
 ### Laser Scan 
 
-1. Assignment: 
-    - Move turtlebot3 straight until reached an obstacle. Then rotates until the straight obstacle distance becomes greater than 3 meters.  
+1. Assignment C++: 
+    * Move turtlebot3 straight until reached an obstacle. Then rotates until the straight obstacle distance becomes greater than 3 meters.  
 
     ```
     rosrun udemy_ros_beginners turtlebot3_start.sh
@@ -40,16 +70,18 @@ sudo apt install xterm
     ```
     rosrun udemy_ros_beginners turtlebot3_start_house.sh
     ```
-    -  Proportional controller that regulates the angular speed and the linear speed such as it moves smoothly without hitting obstacles.
+    *  Proportional controller that regulates the angular speed and the linear speed such as it moves smoothly without hitting obstacles.
 
     ```
     rosrun udemy_ros_beginners turtlebot3_pid_start.sh
     ```
 
-    - Test the proportional controller in other map
+    * Test the proportional controller in other map
 
     ```
     rosrun udemy_ros_beginners turtlebot3_pid_start_house.sh
     ```
 
     >  Play with parameters: left_angle, right_angle and proportional gain (Prop). 
+
+2. Assignment Python
