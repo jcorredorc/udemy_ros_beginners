@@ -9,9 +9,9 @@ sensor_msgs::LaserScan _scanMsg;
 ros::Subscriber scanSubscriber;
 ros::Publisher controlled_cmd_vel_publ;
 geometry_msgs::Twist cmd_vel_command;
-// bool Obstacle;
+
 // float right_angle=30, left_angle=30, Prop=0.5;
-float right_angle=30, left_angle=30, Prop=0.5;
+float right_angle=5, left_angle=5, Prop=0.5;
 
 void scanCallback(sensor_msgs::LaserScan scanMessage);
 bool moveStraightUntilObstacle(sensor_msgs::LaserScan scanMessage);
