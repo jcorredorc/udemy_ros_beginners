@@ -160,6 +160,7 @@ add_executable(tennis_ball_listener_cpp src/opencv_example/assignment/tennis_bal
 add_executable(scan_subscriber_cpp src/scan_laser_example/scan_subscriber.cpp)
 #assignment
 add_executable(move_stop_turtlebot3_cpp src/scan_laser_example/assignment/move_stop_turtlebot3.cpp)
+add_executable(move_pid_turtlebot3_cpp src/scan_laser_example/assignment/move_pid_turtlebot3.cpp)
 
 
 ## Rename C++ executable without prefix
@@ -223,6 +224,11 @@ target_link_libraries(move_stop_turtlebot3_cpp
   laserscan_lib
 )
 
+target_link_libraries(move_pid_turtlebot3_cpp
+  ${catkin_LIBRARIES}
+  laserscan_lib
+)
+
 
 #############
 ## Install ##
@@ -245,6 +251,7 @@ catkin_install_python(PROGRAMS
   src/service_example/area_client.py
   src/service_example/area_service.py
   src/opencv_example/py/image_pub_sub.py
+  src/scan_laser_example/robot_stops_obstacle.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 

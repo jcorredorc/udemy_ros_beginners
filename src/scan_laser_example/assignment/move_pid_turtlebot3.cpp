@@ -39,7 +39,7 @@ void scanCallback (sensor_msgs::LaserScan scanMessage){
 
 bool moveStraightUntilObstacle(sensor_msgs::LaserScan scanMessage){
 
-	if (LaserScanner::getMinimumFrontRange(scanMessage,5,5) < 0.6){
+	if (LaserScanner::getMinimumFrontRange(_scanMsg,5,5) < 0.6){
 		cmd_vel_command.linear.x =0.0;
 		// cmd_vel_command.angular.z=0.0;
 		controlled_cmd_vel_publ.publish(cmd_vel_command);
@@ -48,7 +48,7 @@ bool moveStraightUntilObstacle(sensor_msgs::LaserScan scanMessage){
 										cmd_vel_command.linear.x);
 		return true;
 	} else{
-		cmd_vel_command.linear.x =0.1;
+		cmd_vel_command.linear.x =-0.5*(0.6-LaserScanner::getMinimumFrontRange(_scanMsg,5,5));
 		cmd_vel_command.angular.z=0;
 		controlled_cmd_vel_publ.publish(cmd_vel_command);
 		ROS_INFO("linear vel x [%2.2f]",cmd_vel_command.linear.x);
@@ -63,14 +63,23 @@ void rotateUntilNoObstacle(sensor_msgs::LaserScan scanMessage, bool Obstacle_tru
 	if (Obstacle_true){
 			// ros::Rate loop_rate(10);
 		while (ros::ok()){
-			cmd_vel_command.linear.x =0.0;
-			cmd_vel_command.angular.z=0.3;
+			ros::spinOnce();
+			cmd_vel_command.linear.x=-0.5*(0.6-LaserScanner::getMinimumFrontRange(_scanMsg,5,5));
+			// cmd_vel_command.angular.z=0.3;
+			if (LaserScanner::getMinimumRangeLeft(_scanMsg,5) < LaserScanner::getMinimumRangeRight(_scanMsg,5)){
+				cmd_vel_command.angular.z=0.3;
+				// ros::Duration(1).sleep();
+			}
+			else{
+				cmd_vel_command.angular.z=-0.3;
+				// ros::Duration(1).sleep();
+			}
 			// ROS_INFO("Angular vel [%2.2f], distance: [%2.2f],",cmd_vel_command.angular.z, 
 															//    distance_front);
-			 ROS_INFO("Angular vel [%2.2f]",cmd_vel_command.angular.z);
+			 ROS_INFO("Linear vel [%2.2f] | Angular vel [%2.2f]",cmd_vel_command.linear.x,
+			 													 cmd_vel_command.angular.z);
 			controlled_cmd_vel_publ.publish(cmd_vel_command);
 			// ros::Duration(1).sleep();
-			ros::spinOnce();
 			// ROS_INFO("_scanMsg: [%2.2f]",LaserScanner::getMinimumFrontRange(_scanMsg,5,5));
 			if (LaserScanner::getMinimumFrontRange(_scanMsg,5,5)> 3){
 				break;
