@@ -252,6 +252,7 @@ catkin_install_python(PROGRAMS
   src/service_example/area_service.py
   src/opencv_example/py/image_pub_sub.py
   src/scan_laser_example/robot_stops_obstacle.py
+  src/scan_laser_example/assignment/move_stop_turtlebot3.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 

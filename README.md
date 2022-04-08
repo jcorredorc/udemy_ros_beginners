@@ -15,7 +15,7 @@ This repository is solely for storing notes on the udemy course's personal learn
 
 ## Usage
 
-clone this repository in your workspace:
+clone this repository in your workspace and compile it,
 ```
 git clone  https://github.com/jcorredorc/udemy_ros_beginners.git
 ```
@@ -59,7 +59,7 @@ sudo apt install xterm
 
 ### Laser Scan 
 
-1. Assignment C++: 
+1. Assignment C++ and Python: 
     * Move turtlebot3 straight until reached an obstacle. Then rotates until the straight obstacle distance becomes greater than 3 meters.  
 
     ```
@@ -82,6 +82,5 @@ sudo apt install xterm
     rosrun udemy_ros_beginners turtlebot3_pid_start_house.sh
     ```
 
-    >  Play with parameters: left_angle, right_angle and proportional gain (Prop). 
+        >  Play with parameters: left_angle, right_angle and proportional gain (Prop). 
 
-2. Assignment Python

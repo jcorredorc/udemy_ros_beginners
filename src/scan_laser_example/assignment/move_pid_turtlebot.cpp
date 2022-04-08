@@ -1,7 +1,6 @@
-#include <geometry_msgs/Twist.h>
 #include <ros/ros.h>
 #include <sensor_msgs/LaserScan.h>
-
+#include <geometry_msgs/Twist.h>
 #include "../laserscan/LaserScanner.h"
 
 using namespace std;
@@ -33,8 +32,13 @@ void scanCallback(sensor_msgs::LaserScan scanMessage)
 {
   _scanMsg = scanMessage;
   // double distance = LaserScanner::getMinimumFrontRange(scanMessage,5,5);
-  bool Obstacle = moveStraightUntilObstacle(scanMessage);
+  // bool Obstacle = moveStraightUntilObstacle(scanMessage);
+  bool Obstacle = true;
+  // double distance_front = LaserScanner::getMinimumFrontRange(scanMessage,5,5);
+  // cmd_vel_command.linear.x = 0.5*(0.6-distance_front);
   rotateUntilNoObstacle(scanMessage, Obstacle);
+  // cmd_vel_command.angular.z=0.3;
+  // controlled_cmd_vel_publ.publish(cmd_vel_command);
 }
 
 bool moveStraightUntilObstacle(sensor_msgs::LaserScan scanMessage)
@@ -61,32 +65,38 @@ bool moveStraightUntilObstacle(sensor_msgs::LaserScan scanMessage)
 void rotateUntilNoObstacle(sensor_msgs::LaserScan scanMessage, bool Obstacle_true = true)
 {
   // ROS_INFO_STREAM("Inside rotate Obstacle: "<< Obstacle_true);
-  // double distance_front =
-  // LaserScanner::getMinimumFrontRange(scanMessage,5,5);
+  // double distance_front = LaserScanner::getMinimumFrontRange(scanMessage,5,5);
   if (Obstacle_true)
   {
     // ros::Rate loop_rate(10);
     while (ros::ok())
     {
-      cmd_vel_command.linear.x = 0.0;
-      cmd_vel_command.angular.z = 0.3;
-      // ROS_INFO("Angular vel [%2.2f], distance:
-      // [%2.2f],",cmd_vel_command.angular.z,
-      //    distance_front);
-      ROS_INFO("Angular vel [%2.2f]", cmd_vel_command.angular.z);
-      controlled_cmd_vel_publ.publish(cmd_vel_command);
-      // ros::Duration(1).sleep();
       ros::spinOnce();
-      // ROS_INFO("_scanMsg:
-      // [%2.2f]",LaserScanner::getMinimumFrontRange(_scanMsg,5,5));
+      double distance = LaserScanner::getMinimumFrontRange(_scanMsg, 5, 5);
+      // cmd_vel_command.linear.x =0.0;
+      // ROS_INFO("Angular vel [%2.2f], distance: [%2.2f],",cmd_vel_command.angular.z,
+      //    distance_front);
+      // ros::Duration(1).sleep();
+      cmd_vel_command.linear.x = 0.5 * (0.6 - distance);
+      if (LaserScanner::getMinimumRangeLeft(_scanMsg, 5) < LaserScanner::getMinimumRangeRight(_scanMsg, 5))
+      {
+        cmd_vel_command.angular.z = 0.3;
+      }
+      else
+      {
+        cmd_vel_command.angular.z = -0.3;
+      }
+      controlled_cmd_vel_publ.publish(cmd_vel_command);
+      ROS_INFO("Angular vel [%2.2f] | Linear [%2.2f] ", cmd_vel_command.angular.z, cmd_vel_command.linear.x);
+      // ROS_INFO("_scanMsg: [%2.2f]",LaserScanner::getMinimumFrontRange(_scanMsg,5,5));
       if (LaserScanner::getMinimumFrontRange(_scanMsg, 5, 5) > 3)
       {
         break;
       }
       // loop_rate.sleep();
-      // ROS_INFO_STREAM("distance "<<
-      // LaserScanner::getMinimumFrontRange(scanMessage,5,5)) if
-      // (LaserScanner::getMinimumFrontRange(scanMessage,5,5) > 0.6 ){ 	break;
+      // ROS_INFO_STREAM("distance "<< LaserScanner::getMinimumFrontRange(scanMessage,5,5))
+      // if (LaserScanner::getMinimumFrontRange(scanMessage,5,5) > 0.6 ){
+      // 	break;
       // }
     }
   }
