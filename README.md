@@ -111,7 +111,7 @@ rosrun rosserial_python serial_node.py /dev/ttyACM0
 roslaunch udemy_ros_beginners arduino_hcsr04.launch
 ```
 
-To visualize it's necessary create a transformation from map to sensor frame, which is included in the launch file
+To visualize it's necessary to create a transformation from map to sensor frame, which is included in the launch file
 
 ```
 rosrun tf static_transform_publisher 0.0 0.0 0.0 0.0 0.0 0.0 1.0 map ultrasound 10
