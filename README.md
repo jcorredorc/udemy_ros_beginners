@@ -2,7 +2,7 @@
 
 ROS Noetic - Ubuntu 20.04 
 
-This repository is solely for storing notes on the udemy course's personal learning process; please refer to [the original source](https://www.udemy.com/course/ros-essentials/) for more information.
+This repository is solely for storing notes on the udemy course's personal learning path; please refer to [the original source](https://www.udemy.com/course/ros-essentials/) for more information.
 
 | folder src| content |
 | ------------- | ------------- |
@@ -11,7 +11,7 @@ This repository is solely for storing notes on the udemy course's personal learn
 |[service_example](src/service_example/)|a service that calculate the area of a rectangle, given its width and height. See the definition of the service type in [srv file](srv/rectangleAreaService.srv)|
 |[opencv_example](src/opencv_example/)| **Python** <br/> * open_copy.py <br/> * image_structure.py <br/> * images_encoding.py <br/> * read_video.py <br/> * image_draw.py <br/> * image_pub_sub.py (bridge w ROS) <br/>  * image_thresholding.py (segmentation) <br/> * color_filtering.py <br/> * contours_detection.py <br/> * contours_processing.py <br/> * ball_detection.py <br/>  **C++**  <br/>  * read_video.cpp <br/>  * open_copy.cpp <br/> * image_pub_sub.cpp <br/>  *  trackbar_video.cpp (book learning OpenCV) <br/> **Assignments** <br/> * read_video_ball_tracker.cpp  <br/> * tennis_ball_publisher.cpp <br/> * tennis_ball_listener.cpp <br/> * tennis_ball_usb_cam_tracker.cpp  |
 |[scan_laser_example](src/scan_laser_example/)|* scan_subscriber.py <br/> * scan_subscriber.cpp <br/> * robot_stops_obstacle.py :x: <br/> * laserscan: A custom library from the [course material](https://www.udemy.com/course/ros-essentials/) <br/> **Assignment** <br/> * move_stop_turtlebot3.cpp <br/> * move_stop_turtlebot3.py <br/>  * move_pid_turtlebot3.cpp <br/> * move_pid_turtlebot3.py |
-|[arduino](src/arduino/.)| __hcsr04_ros.ino__ compile and load in the arduino IDE.  |
+|[arduino](src/arduino/.)| hcsr04_ros.ino compile and load with the arduino IDE.  |
 
 ## Usage
 
@@ -59,13 +59,13 @@ sudo apt install xterm
 
 ### Laser Scan 
 
-1. Assignment C++ and Python: 
+1. Assignment C++ [and Python]: 
     * Move turtlebot3 straight until reached an obstacle. Then rotates until the straight obstacle distance becomes greater than 3 meters.  
 
     ```
     rosrun udemy_ros_beginners turtlebot3_start.sh
     ```
-    - Test the functions in other map
+    * Test the functions in other map
 
     ```
     rosrun udemy_ros_beginners turtlebot3_start_house.sh
@@ -84,3 +84,35 @@ sudo apt install xterm
 
         >  Play with parameters: left_angle, right_angle and proportional gain (Prop). 
 
+    See also the python version in the repository.
+
+### Arduino
+
+1. Mount the sensor HC_SR04 in the Arduino board,
+
+![arduino hcsr04](src/arduino/HC_SR04_cabling.jpg "https://github.com/gamegine/HCSR04-ultrasonic-sensor-lib/blob/master/examples/HCSR04/HC_SR04_cabling.jpg")
+
+
+
+2. Install the HCSR04 library ([gamegine](https://github.com/gamegine/HCSR04-ultrasonic-sensor-lib)) in Arduino IDE. [See how to install libraries](https://docs.arduino.cc/software/ide-v1/tutorials/installing-libraries)
+
+3. Compile and load  the file `hcsr04_ros.ino` with the Arduino IDE to the board.
+
+4. [Install](http://wiki.ros.org/rosserial_arduino/Tutorials) and run the rossserial node,
+
+```
+rosrun rosserial_python serial_node.py /dev/ttyACM0
+```
+
+5. Visualize the sensor in Rviz
+
+
+```
+roslaunch udemy_ros_beginners arduino_hcsr04.launch
+```
+
+To visualize it's necessary create a transformation from map to sensor frame, which is included in the launch file
+
+```
+rosrun tf static_transform_publisher 0.0 0.0 0.0 0.0 0.0 0.0 1.0 map ultrasound 10
+```

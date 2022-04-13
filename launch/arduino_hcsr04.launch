@@ -1,0 +1,9 @@
+<launch>
+  <node name="tf_hcsr04" pkg="tf" type="static_transform_publisher" output="screen"  args="0.0 0.0 0.0 0.0 0.0 0.0 1.0 map ultrasound 10">
+    <!-- <param name="video_device" value="/dev/video2" /> -->
+  </node>
+  <node name="arduino_serial" pkg="rosserial_python" type="serial_node.py" args="/dev/ttyACM0" output="screen">
+  </node>
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find udemy_ros_beginners)/rviz/arduino_hcsr04.rviz">
+ </node>
+</launch>
